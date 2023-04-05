@@ -17,21 +17,21 @@ type FS struct {
 var _ rwfs.FS = (*FS)(nil)
 
 func (fsys FS) Open(name string) (fs.File, error) {
-	p := fsys.fullPath(name)
+	p := fsys.FullPath(name)
 	return os.Open(p)
 }
 
 func (fsys FS) OpenAsWritable(name string) (rwfs.File, error) {
-	p := fsys.fullPath(name)
+	p := fsys.FullPath(name)
 	return os.OpenFile(p, os.O_RDWR, DefaultFilePerm)
 }
 
 func (fsys FS) Truncate(name string, size int64) error {
-	p := fsys.fullPath(name)
+	p := fsys.FullPath(name)
 	return os.Truncate(p, size)
 }
 
-func (fsys FS) fullPath(name string) string {
+func (fsys FS) FullPath(name string) string {
 	return filepath.Join(fsys.rootDir, name)
 }
 

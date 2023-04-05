@@ -47,6 +47,10 @@ func NewIndex(fsys rwfs.FS) (*Index, error) {
 			return nil
 		}
 
+		if strings.HasPrefix(d.Name(), ".") {
+			return nil
+		}
+
 		err = index.processAndAdd(path)
 		if err != nil {
 			return err
@@ -202,7 +206,8 @@ func (i *Index) process(path string) (*entry, error) {
 		return nil, fmt.Errorf("unable to decode YAML at %q: %w", path, err)
 	}
 
-	cfg, err := build.ParseConfiguration(path)
+	// TODO: fix hack because build.ParseConfiguration doesn't use an FS abstraction yet
+	cfg, err := build.ParseConfiguration(i.fsys.FullPath(path))
 	if err != nil {
 		return nil, fmt.Errorf("unable to parse configuration at %q: %w", path, err)
 	}

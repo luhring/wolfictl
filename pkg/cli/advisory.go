@@ -23,6 +23,7 @@ func Advisory() *cobra.Command {
 	cmd.AddCommand(AdvisoryUpdate())
 	cmd.AddCommand(AdvisorySyncSecfixes())
 	cmd.AddCommand(AdvisoryDiscover())
+	cmd.AddCommand(AdvisoryImage())
 
 	return cmd
 }
